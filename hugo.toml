@@ -1,6 +1,6 @@
 baseURL = "https://ansuman-satapathy.github.io/"
 languageCode = "en-us"
-title = "Ansuman"
+title = "Ansuman Satapathy"
 theme = "hello-friend-ng"
 copyright = "CC BY-NC 4.0"
 
@@ -36,8 +36,8 @@ copyright = "CC BY-NC 4.0"
 
   [[menu.main]]
     identifier = "blog"
-    name       = "Blog"   # Renamed from Logs
-    url        = "/blog/" # Renamed from /posts/
+    name       = "Blog"
+    url        = "/blog/"
     weight     = 2
 
   [[menu.main]]

@@ -6,5 +6,5 @@ hidemeta: true
 layout: "simple"
 ---
 
-> *Building in public. Case studies incoming...*
+> *Soon...*
 

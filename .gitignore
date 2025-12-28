@@ -1,0 +1,17 @@
+# Hugo Default Output
+public/
+resources/_gen/
+.hugo_build.lock
+
+# OS Junk (Don't let these leak in)
+.DS_Store
+Thumbs.db
+
+# Editor Configs (Optional, but recommended to keep repo clean)
+.vscode/
+.idea/
+*.swp
+*~
+
+# Sass/CSS cache (If your theme uses it)
+.sass-cache/

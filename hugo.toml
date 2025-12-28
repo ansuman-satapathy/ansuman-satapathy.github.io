@@ -1,4 +1,4 @@
-baseURL = "https://ansuman-satapathy.github.io/blog/"
+baseURL = "https://ansuman-satapathy.github.io/"
 languageCode = "en-us"
 title = "Ansuman"
 theme = "hello-friend-ng"
@@ -7,13 +7,31 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 [params]
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
-  dateformNum     = "2006-01-02"
-  dateformNumTime = "2006-01-02 15:04"
-
-  # The "Hacker" aesthetic settings
-  defaultTheme = "dark" 
+  defaultTheme    = "dark" 
   enableThemeToggle = true
-  showReadTime = true
+  showReadTime    = true
+
+  # --- LANDING PAGE SETTINGS ---
+  [params.home]
+    introHeight = "fullheight"
+    showLatest = false
+    
+  [params.home.profile]
+    enable = true
+    title = "Ansuman"
+    subtitle = "Backend ➜ DevOps | Python | Go"    
+    # image = "img/avatar.jpg" 
+
+    # Your Social Links on the Landing Page
+    [[params.home.profile.social]]
+      icon = "github"
+      url = "https://github.com/ansuman-satapathy"
+    [[params.home.profile.social]]
+      icon = "linkedin"
+      url = "https://linkedin.com/in/ansuman-satapathy"
+    [[params.home.profile.social]]
+      icon = "mail"
+      url = "mailto:satapathyansuman12@gmail.com"
 
 [menu]
   [[menu.main]]

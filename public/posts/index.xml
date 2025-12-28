@@ -1,0 +1,23 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Ansuman</title>
+        <link>http://localhost:1313/logbook/posts/</link>
+        <description>Recent content in Posts on Ansuman</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+        <lastBuildDate>Sun, 28 Dec 2025 19:49:05 +0530</lastBuildDate>
+        <atom:link href="http://localhost:1313/logbook/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Test Log</title>
+            <link>http://localhost:1313/logbook/posts/test-log/</link>
+            <pubDate>Sun, 28 Dec 2025 19:49:05 +0530</pubDate>
+            
+            <guid>http://localhost:1313/logbook/posts/test-log/</guid>
+            <description></description>
+            <content type="html"><![CDATA[]]></content>
+        </item>
+        
+    </channel>
+</rss>

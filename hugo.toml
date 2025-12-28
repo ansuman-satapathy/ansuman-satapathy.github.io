@@ -1,0 +1,26 @@
+baseURL = "https://ansuman-satapathy.github.io/blog/"
+languageCode = "en-us"
+title = "Ansuman"
+theme = "hello-friend-ng"
+copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
+
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
+
+  # The "Hacker" aesthetic settings
+  defaultTheme = "dark" 
+  enableThemeToggle = true
+  showReadTime = true
+
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "/about/"
+  [[menu.main]]
+    identifier = "posts"
+    name       = "Logs"
+    url        = "/posts/"

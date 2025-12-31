@@ -2,7 +2,11 @@ baseURL = "https://ansuman-satapathy.github.io/"
 languageCode = "en-us"
 title = "Ansuman Satapathy"
 theme = "hello-friend-ng"
-copyright = "CC BY-NC 4.0"
+
+[taxonomies]
+  category = "categories"
+  tag      = "tags"
+  series   = "series"
 
 [params]
   dateform        = "Jan 2, 2006"
@@ -12,6 +16,8 @@ copyright = "CC BY-NC 4.0"
   showReadTime    = true
   mainSections = ["blog"]
   homeSubtitle = "Backend Engineer | Go · DevOps · Linux"
+  enableSharingButtons = true
+  customCSS = ["/css/custom.css"]
 
   [params.logo]
     logoText = "ansuman"      

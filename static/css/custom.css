@@ -1,0 +1,9 @@
+code[class*="language-"],
+pre[class*="language-"] {
+    text-shadow: none !important;
+    font-family: monospace !important;
+}
+
+.token {
+    text-shadow: none !important;
+}

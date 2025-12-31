@@ -1,0 +1,23 @@
+{{ if .Params.series }}
+{{ $name := index .Params.series 0 }}
+{{ $series_name := $name | urlize }}
+{{ $series := index .Site.Taxonomies.series $series_name }}
+
+{{ if gt (len $series) 1 }}
+<div class="series-nav">
+    <h4>Part of the <a href="{{ "series/" | relLangURL }}{{ $series_name }}">{{ $name }}</a> series:</h4>
+    <ul>
+        {{ range $series.Pages.Reverse }}
+        <li>
+            {{ if eq . $ }}
+            <strong>{{ .Title }}</strong> <span class="series-current-indicator">(Current)</span>
+            {{ else }}
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            {{ end }}
+        </li>
+        {{ end }}
+    </ul>
+    <hr />
+</div>
+{{ end }}
+{{ end }}

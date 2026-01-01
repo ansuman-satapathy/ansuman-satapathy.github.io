@@ -8,8 +8,92 @@ pre[class*="language-"] {
   text-shadow: none !important;
 }
 
-/* --- 1. LIGHT MODE (Perfect - DO NOT TOUCH) --- */
-:not(pre) > code {
+
+[data-theme="dark"] ::-webkit-scrollbar,
+html[data-theme="dark"] ::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track,
+html[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #282a36;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb,
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #44475a;
+  border-radius: 6px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #6272a4;
+}
+
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #282a36;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #44475a;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6272a4;
+  }
+}
+
+[data-theme="light"] ::-webkit-scrollbar,
+html[data-theme="light"] ::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track,
+html[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb,
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 6px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover,
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+@media (prefers-color-scheme: light) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+}
+
+:not(pre)>code {
   background-color: rgba(147, 46, 201, 0.1) !important;
   color: #6b2191 !important;
   border: 1px solid rgba(147, 46, 201, 0.2) !important;
@@ -19,10 +103,106 @@ pre[class*="language-"] {
   font-size: 0.9em;
 }
 
-body.dark-theme :not(pre) > code,
-body.dark :not(pre) > code,
-[data-theme="dark"] :not(pre) > code {
+body.dark-theme :not(pre)>code,
+body.dark :not(pre)>code,
+[data-theme="dark"] :not(pre)>code {
   background-color: rgba(147, 46, 201, 0.15) !important;
   color: #e9d5ff !important;
   border: 1px solid rgba(147, 46, 201, 0.5) !important;
+}
+
+[data-theme="dark"] body,
+body[data-theme="dark"],
+html[data-theme="dark"] body {
+  background-color: #1e1f29 !important;
+  color: #f8f8f2 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1e1f29 !important;
+    color: #f8f8f2 !important;
+  }
+}
+
+[data-theme="dark"] .header,
+html[data-theme="dark"] .header {
+  background-color: #16171f !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    background-color: #16171f !important;
+  }
+}
+
+[data-theme="dark"] .menu__inner,
+html[data-theme="dark"] .menu__inner,
+[data-theme="dark"] .menu,
+html[data-theme="dark"] .menu {
+  background-color: #16171f !important;
+}
+
+[data-theme="dark"] .menu__inner li,
+html[data-theme="dark"] .menu__inner li,
+[data-theme="dark"] .menu__inner li a,
+html[data-theme="dark"] .menu__inner li a,
+[data-theme="dark"] .menu a,
+html[data-theme="dark"] .menu a {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+@media (prefers-color-scheme: dark) {
+
+  .menu__inner,
+  .menu {
+    background-color: #16171f !important;
+  }
+
+  .menu__inner li,
+  .menu__inner li a,
+  .menu a {
+    background-color: transparent !important;
+    background: transparent !important;
+  }
+}
+
+
+[data-theme="light"] .header,
+html[data-theme="light"] .header {
+  background-color: #fafafa !important;
+}
+
+[data-theme="light"] .menu__inner,
+html[data-theme="light"] .menu__inner,
+[data-theme="light"] .menu,
+html[data-theme="light"] .menu {
+  background-color: #fafafa !important;
+}
+
+@media (prefers-color-scheme: light) {
+  .header {
+    background-color: #fafafa !important;
+  }
+
+  .menu__inner,
+  .menu {
+    background-color: #fafafa !important;
+  }
+}
+
+
+[data-theme="light"] body,
+body[data-theme="light"],
+html[data-theme="light"] body {
+  background-color: #fff !important;
+  color: #222 !important;
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #fff !important;
+    color: #222 !important;
+  }
 }

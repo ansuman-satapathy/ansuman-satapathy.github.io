@@ -21,6 +21,7 @@ params:
   enableSharingButtons: true
   customCSS:
     - "/css/custom.css"
+    - "/css/dracula-prism.css"
   logo:
     logoText: "ansuman"
     logoHomeLink: "/"

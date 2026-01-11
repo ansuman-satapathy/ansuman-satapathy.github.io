@@ -1,7 +1,7 @@
 ---
 title: "Git Rebase: How to Hide Your Shameful Commit History"
 date: 2026-01-11T22:12:03+05:30
-draft: true
+draft: false
 toc: false
 categories: [Git, DevOps]
 tags: [git, rebase]

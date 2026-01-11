@@ -94,7 +94,7 @@ markup:
       unsafe: true # Allows raw HTML in markdown
 ```
 
-Sweet. Now go to your terminal and run `hugo server`. Click the link it generates, and behold: an awesome, clean site. Congrats! You can now send `http://localhost:1313/` to your friends to show off. (I'm kidding. Please don't be that person.)
+Sweet. Now go to your terminal and run `hugo server -D`. Click the link it generates, and behold: an awesome, clean site. Congrats! You can now send `http://localhost:1313/` to your friends to show off. (I'm kidding. Please don't be that person.)
 
 ## 4. Automated Build and Deployment Pipeline
 

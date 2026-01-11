@@ -7,7 +7,7 @@ layout: "simple"
 
 ## Hi, I'm Ansuman.
 
-I'm a backend developer who accidentally started enjoying the Ops side of things a little too much.
+I'm a backend developer who also enjoys the Ops side of things.
 
 I work at a small company, which means I don't just write the code. I have to make sure it actually runs somewhere other than my laptop. I write the application logic, but I also build the pipelines that ship it to the server. I’ve always been a Linux tinkerer (Broken my fair share of them), so taking over the CI/CD workflows felt weirdly natural.
 

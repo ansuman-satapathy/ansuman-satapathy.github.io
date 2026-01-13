@@ -7,13 +7,13 @@ layout: "simple"
 
 ## Hi, I'm Ansuman.
 
-I'm a backend developer who also enjoys the Ops side of things.
+I’m a backend developer actively moving toward Infrastructure and Platform Engineering.
 
-I work at a small company, which means I don't just write the code. I have to make sure it actually runs somewhere other than my laptop. I write the application logic, but I also build the pipelines that ship it to the server. I’ve always been a Linux tinkerer (Broken my fair share of them), so taking over the CI/CD workflows felt weirdly natural.
+I work at a small company, which means I don't just write the code. I have to make sure it actually runs somewhere other than my laptop. I write the application logic, but I also build the pipelines that ship it to the server. I’ve always been a Linux tinkerer (Broken my fair share of them), so taking over the CI/CD workflows felt weirdly natural. And I have come to realise that I really enjoy it.
 
-I’m not trying to force a specific title. I just hate black boxes. If I write the code, I want to understand exactly how it runs on the server and how to fix it when it inevitably crashes.
+My goal isn't just to learn "DevOps tools". Tools change every year. My goal is to become a better engineer. I hate black boxes. I want to understand systems from the kernel up, not just how to glue APIs together.
 
-I created this site to document that journey. Mostly so I can look back later and remember how I fixed that one specific Kubernetes error, but also to help anyone else who might be stuck in the same boat. You will also find my projects here, along with the documentation covering how (and why) I built them.
+This site documents that process. It’s a log of my projects, my study notes, and the programming concepts I’m learning along the way. If I build it, break it, or migrate it, I write about it here.
 
 If you actually want to read this stuff, you can [subscribe via RSS](/index.xml).
 

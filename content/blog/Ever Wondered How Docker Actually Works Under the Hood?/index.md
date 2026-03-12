@@ -1,7 +1,7 @@
 ---
 title: "Ever Wondered How Docker Actually Works Under the Hood?"
 date: 2026-03-12T08:47:25+05:30
-draft: true
+draft: false
 toc: false
 categories: [DevOps, Docker]
 tags: [docker, containers, linux-namespaces, cgroups, ufs]

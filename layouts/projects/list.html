@@ -1,0 +1,41 @@
+{{ define "main" }}
+<div class="content">
+    <main class="posts">
+        <h1 class="post-title">{{ .Title }}</h1>
+
+        <div class="project-list">
+            {{ range .Pages.ByDate.Reverse }}
+            <div class="project-entry">
+                <div class="project-meta">
+                    <span class="project-date">{{ .Date.Format "Jan 2006" }}</span>
+                    <div class="project-tags">
+                        {{ with .Params.tags }}
+                        {{ range . }}
+                        <span>{{ . }}</span>
+                        {{ end }}
+                        {{ end }}
+                    </div>
+                </div>
+                
+                <div class="project-body">
+                    <h3 class="project-title">{{ .Title }}</h3>
+                    <p class="project-desc">{{ .Description | default .Summary }}</p>
+                    
+                    <div class="project-links">
+                        {{ with .Params.github }}
+                        <a href="{{ . }}" class="project-link github" target="_blank" rel="noopener noreferrer">
+                            GitHub
+                        </a>
+                        {{ end }}
+                        <a href="{{ .Permalink }}" class="project-link more">
+                            Details →
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </main>
+</div>
+</div>
+{{ end }}

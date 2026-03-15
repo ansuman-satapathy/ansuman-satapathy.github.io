@@ -13,7 +13,7 @@ params:
   dateformShort: "Jan 2"
   dateformNumTime: "Jan 2, 2006"
   defaultTheme: "dark"
-  enableThemeToggle: true
+  enableThemeToggle: false
   showReadTime: true
   mainSections:
     - "blog"

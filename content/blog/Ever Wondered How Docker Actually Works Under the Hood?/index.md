@@ -38,7 +38,7 @@ Cgroups allow the kernel to enforce hard limits on a process group:
 - **CPU:** Uses the CFS (Completely Fair Scheduler) to ensure a container only gets its allocated share of CPU cycles.
 - **Blkio:** Limits the disk I/O throughput to prevent "noisy neighbors" from starving other infrastructure.
 
-### 3. Union File System (Overlay2): The Storage Layer
+### 3. Union File System: The Storage Layer
 
 Docker images are made of layers. If you have five containers based on `ubuntu:22.04`, you don't have five copies of the Ubuntu OS on your disk. You have one.
 
@@ -56,7 +56,7 @@ Running a process as `root` is traditionally dangerous. However, most containers
 
 The kernel breaks down the "all-powerful" root privilege into ~40 distinct bits. Docker starts by **dropping all capabilities** and adding back only a few (about 14 by default), such as `CAP_NET_BIND_SERVICE` (to allow binding to ports < 1024) and `CAP_CHOWN`. It drops `CAP_SYS_ADMIN`, ensuring that even if a container is compromised, the attacker's "root" access is severely restricted.
 
-### The Reality Check: Linking to the Host
+### Understanding the Mapping with Host OS
 
 To truly understand Docker, you have to realize that the "container" doesn't actually exist as a separate entity. It is just a mapping.
 

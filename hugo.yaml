@@ -2,6 +2,8 @@ baseURL: "https://ansuman-satapathy.github.io/"
 languageCode: "en-us"
 title: "Ansuman Satapathy"
 theme: "hello-friend-ng"
+pagination:
+  pagerSize: 5
 
 taxonomies:
   category: "categories"
@@ -17,7 +19,7 @@ params:
   showReadTime: true
   mainSections:
     - "blog"
-  homeSubtitle: "Backend Engineer | Go · DevOps · Linux"
+  homeSubtitle: "Backend Engineer | Go · DevOps · Cloud"
   enableSharingButtons: true
   customCSS:
     - "/css/custom.css"
@@ -57,3 +59,9 @@ markup:
   goldmark:
     renderer:
       unsafe: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON

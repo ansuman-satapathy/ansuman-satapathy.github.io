@@ -17,11 +17,3 @@ This site documents that process. It’s a log of my projects, my study notes, a
 
 If you actually want to read this stuff, you can [subscribe via RSS](/index.xml).
 
-<style>
-.footer, .pagination {
-    border-top: none !important;
-}
-hr {
-    display: none !important;
-}
-</style>

@@ -5,30 +5,34 @@
 
         <div class="project-list">
             {{ range .Pages.ByDate.Reverse }}
-            <div class="project-entry">
-                <div class="project-meta">
-                    <span class="project-date">{{ .Date.Format "Jan 2006" }}</span>
-                    <div class="project-tags">
+            <div class="interactive-card">
+                <div class="card-meta">
+                    <span class="card-date">{{ .Date.Format "Jan 02, 2006" }}</span>
+                    <span class="card-read-time">{{ .ReadingTime }} min read</span>
+                </div>
+                
+                <div class="card-body">
+                    <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                    <div class="card-desc">{{ .Description | default .Summary }}</div>
+                    
+                    <div class="card-tags">
                         {{ with .Params.tags }}
                         {{ range . }}
-                        <span>{{ . }}</span>
+                        <a href="{{ "tags/" | absURL }}{{ . | urlize }}" class="card-tag">{{ . }}</a>
                         {{ end }}
                         {{ end }}
                     </div>
-                </div>
-                
-                <div class="project-body">
-                    <h3 class="project-title">{{ .Title }}</h3>
-                    <p class="project-desc">{{ .Description | default .Summary }}</p>
-                    
-                    <div class="project-links">
+
+                    <div class="card-links">
                         {{ with .Params.github }}
-                        <a href="{{ . }}" class="project-link github" target="_blank" rel="noopener noreferrer">
+                        <a href="{{ . }}" class="card-link github" target="_blank" rel="noopener">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7a3.37 3.37 0 0 0-.94 2.58V22"></path></svg>
                             GitHub
                         </a>
                         {{ end }}
-                        <a href="{{ .Permalink }}" class="project-link more">
-                            Details →
+                        <a href="{{ .Permalink }}" class="card-link more">
+                            Details 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
                     </div>
                 </div>

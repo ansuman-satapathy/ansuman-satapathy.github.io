@@ -1,8 +1,8 @@
 ---
-title: "Iac Evolution"
+title: "IaC Evolution"
 date: 2026-03-15
 description: "This project shows the journey from Bash to Terraform, demonstrating the evolution of Infrastructure as Code (IaC)."
-tags: ["DevOps", "IaC"]
+tags: ["devops", "iac"]
 github: "https://github.com/ansuman-satapathy/IaC-Evolution"
 draft: false
 ---

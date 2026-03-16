@@ -7,82 +7,328 @@ categories: [DevOps, Docker]
 tags: [docker, containers, linux-namespaces, cgroups, ufs]
 ---
 
-If you use Docker every day, you know the workflow: `docker build`, `docker pull`, `docker run`. But for a Software Engineer, treating Docker as a "black box" that magically spawns mini-computers isn't enough.
+If you use Docker daily, the workflow becomes second nature:
 
-A container isn't a virtual machine. There is no hypervisor, no guest kernel, and no hardware emulation. In reality, a container is just a **standard Linux process** that the kernel has isolated using four specific features.
+```bash
+docker pull
+docker build
+docker run
+```
 
-If you stripped away the Docker Engine, you could build a container yourself using nothing but raw Linux syscalls. Here is how that works under the hood.
+Containers appear, applications start, and everything “just works”.
+
+But if you're a software engineer or working in infrastructure, treating Docker like a magical black box is not ideal. Containers are not virtual machines, and Docker isn't creating tiny computers.
+
+Under the hood, a **container is simply a Linux process** that the kernel isolates using a few powerful features.
+
+No hypervisor.
+No guest OS.
+No hardware virtualization.
+
+Just clever use of the Linux kernel.
+
+At the core, Docker relies on **three fundamental primitives**:
+
+```
+Namespaces  → Isolation
+Cgroups     → Resource control
+Union FS    → Layered filesystem
+```
+
+Once you understand these three pieces, containers stop looking like magic and start looking like **smart operating system engineering**.
+
 
 <img src="scooby-doo-docker.jpeg" alt="Docker under the hood" style="width: 100%; height: auto; border-radius: 8px;">
 
-### 1. Namespaces: The Virtualization of Resources
+# The Three Pillars of Containers
 
-Namespaces are the core of isolation. While a VM virtualizes hardware, Namespaces virtualize **kernel resources**. When you start a container, the runtime calls `clone()` or `unshare()` with specific flags to create a process with its own private view of the system.
+Think of running containers like managing tenants in an apartment building.
 
-- **PID Namespace:** This creates a nested process tree. The process thinks it is **PID 1 (init)**, but on the host, it's just a high-numbered PID. It cannot see or signal any process outside its own namespace.
-- **NET Namespace:** This provides a private network stack. The process gets its own virtual interfaces (`eth0`), loopback device, IP addresses, and routing tables. This is why two containers can both bind to port 80 without a conflict.
-- **MNT Namespace:** This isolates mount points. Combined with `pivot_root`, it ensures the process only sees the container's root filesystem. It literally cannot "walk" back into the host's `/etc` or `/home` directories.
-- **UTS Namespace:** This isolates the hostname and NIS domain name. It allows the container to have its own identity (e.g., `web-server-01`) on the network, entirely independent of the host's actual name.
-- **IPC Namespace:** This isolates Inter-Process Communication resources like System V IPC objects and POSIX message queues. It prevents a process in one container from accessing the shared memory of a process in another.
-- **USER Namespace:** This maps user and group IDs. It allows a process to have **root privileges (UID 0)** inside the container while being a completely unprivileged user on the host, significantly reducing the risk of a container breakout.
-- **CGROUP Namespace:** This hides the host's cgroup hierarchy. It ensures the process only sees its own relevant cgroup path (usually `/`), preventing it from gaining information about the host's resource configuration.
-- **TIME Namespace:** This allows the container to have its own offsets for the system monotonic and boot clocks. This is useful when you need a container to believe the system has been up for years, even if the host just rebooted.
+* **Namespaces** give each tenant their own apartment.
+* **Cgroups** decide how much electricity and water they can use.
+* **Union Filesystems** determine what furniture already exists in the apartment.
 
-### 2. Control Groups (cgroups): Resource Allocation
+Docker simply coordinates these kernel features to make everything look like a small isolated system.
 
-If Namespaces provide isolation, **cgroups** provide governance. Without them, a single container with a memory leak could bring down the entire host via the OOM (Out of Memory) Killer.
 
-Cgroups allow the kernel to enforce hard limits on a process group:
+# 1. Namespaces
 
-- **Memory:** Caps the RAM usage. If a container hits its limit, the kernel kills _only_ that process tree.
-- **CPU:** Uses the CFS (Completely Fair Scheduler) to ensure a container only gets its allocated share of CPU cycles.
-- **Blkio:** Limits the disk I/O throughput to prevent "noisy neighbors" from starving other infrastructure.
+Normally every process on a Linux machine sees the same system:
 
-### 3. Union File System: The Storage Layer
+* the same process tree
+* the same network stack
+* the same filesystem
+* the same hostname
 
-Docker images are made of layers. If you have five containers based on `ubuntu:22.04`, you don't have five copies of the Ubuntu OS on your disk. You have one.
+Namespaces change that.
 
-Docker uses **Overlay2**, a Union File System that "stacks" directories on top of each other:
+They allow the kernel to create **separate views of system resources** for different processes.
 
-- **LowerDir (Read-Only):** The base layers of your image.
-- **UpperDir (Writable):** A thin layer created when the container starts. Any changes you make (logs, temp files) go here.
-- **Merged:** The unified view the container actually sees.
+When Docker starts a container, it creates a process with several namespaces attached to it. That process now believes it is running in its own machine.
 
-This uses **Copy-on-Write (CoW)**. If you modify a file in the base image, the kernel copies it to the `UpperDir` first, then applies the change.
 
-### 4. Linux Capabilities: Granular Privilege
+## PID Namespace
 
-Running a process as `root` is traditionally dangerous. However, most containers run as `UID 0`. To prevent a "root" process from compromising the host kernel, Docker uses **Linux Capabilities**.
+This isolates the **process tree**.
 
-The kernel breaks down the "all-powerful" root privilege into ~40 distinct bits. Docker starts by **dropping all capabilities** and adding back only a few (about 14 by default), such as `CAP_NET_BIND_SERVICE` (to allow binding to ports < 1024) and `CAP_CHOWN`. It drops `CAP_SYS_ADMIN`, ensuring that even if a container is compromised, the attacker's "root" access is severely restricted.
+Inside the container:
 
-### Understanding the Mapping with Host OS
+```
+PID 1    nginx
+PID 7    worker process
+PID 8    worker process
+```
 
-To truly understand Docker, you have to realize that the "container" doesn't actually exist as a separate entity. It is just a mapping.
+On the host machine:
 
-#### PID Mapping
+```
+PID 4502 nginx
+PID 4503 nginx worker
+PID 4504 nginx worker
+```
 
-If you run `ps aux` inside an Nginx container, you will see `nginx` running as **PID 1**. But if you run `ps aux | grep nginx` on your **Host OS**, you will see that same process running with a completely different PID, like **4502**.
+Same processes. Different view.
 
-- The Kernel maintains a translation table.
-- To the process, it's the king of its own world (`PID 1`).
-- To the Host, it’s just another tenant (`PID 4502`) managed by the same CPU scheduler as your browser or your terminal.
+Inside the container, nginx believes it is **PID 1**, the first process in the system.
 
-#### Port Mapping
+The host kernel knows it is just another process among thousands.
 
-When you run a container with `-p 8080:80`, Docker isn't "bridging" two computers. It is using **iptables** (specifically DNAT rules) on the host.
 
-- When traffic hits the host on port 8080, the Kernel's networking stack sees the rule and reroutes those packets into the container's **NET Namespace**.
-- The Nginx process sitting in that namespace sees the traffic arriving on port 80 and responds, never knowing it was actually targeted at 8080 on the outside.
+## Network Namespace
 
-### How it all comes together: `docker run nginx`
+Each container receives its own network stack.
 
-To understand the mechanics, let’s trace what happens inside the Kernel when you execute a simple `docker run nginx` command.
+That includes:
 
-1. **Overlay2 Triggered:** The Docker Engine identifies the Nginx image layers. It mounts the `LowerDir` (the Nginx binaries and OS libraries) and creates a fresh `UpperDir`. It merges them into a single view. The process now has a "disk" to boot from.
-2. **Namespaces Triggered:** Docker calls `clone()` with flags like `CLONE_NEWPID` and `CLONE_NEWNET`. Suddenly, the Nginx process is born. It looks around and sees it is `PID 1`. It sees a blank network interface waiting for an IP. It is effectively blind to the rest of your server.
-3. **Cgroups Triggered:** Before Nginx can start serving requests, Docker writes the PID of this new process into `/sys/fs/cgroup/cpu/docker/<container_id>/cgroup.procs`. If you set a 512MB limit, the Kernel now monitors every byte Nginx allocates.
-4. **Capabilities Triggered:** Before the final execution, the runtime applies a "Capability Bounding Set." Even though Nginx is running as root to bind to port 80, the Kernel strips it of the ability to do things like load kernel modules or restart the host.
-5. **The Pivot:** Finally, the process calls `pivot_root`, making the Merged OverlayFS directory its new `/`. It then executes the Nginx binary.
+* network interfaces
+* routing tables
+* firewall rules
+* IP addresses
 
-**Effectively, a container is not a box; it is a process with boundaries.** Understanding these primitives is what separates a Docker user from a Systems Engineer.
+Inside the container you might see:
+
+```
+eth0   172.17.0.2
+lo     127.0.0.1
+```
+
+Meanwhile the host machine has completely different interfaces.
+
+This is why **multiple containers can run web servers on port 80 simultaneously**. Each one exists in its own networking universe.
+
+
+## Mount Namespace
+
+This isolates the filesystem.
+
+When the container starts, Docker gives it a **different root filesystem** using `pivot_root`.
+
+Inside the container:
+
+```
+/
+├── bin
+├── etc
+├── usr
+└── var
+```
+
+But these directories are **not the host's real filesystem**. They come from the container image.
+
+From the container’s perspective, this *is* the entire system.
+
+
+## Types of Namespaces (Quick Overview)
+
+Linux supports several namespace types that isolate different parts of the system.
+
+* **PID Namespace** – isolates process IDs
+* **NET Namespace** – isolates networking
+* **MNT Namespace** – isolates filesystem mount points
+* **UTS Namespace** – isolates hostname and domain name
+* **IPC Namespace** – isolates shared memory and message queues
+* **USER Namespace** – isolates user IDs and permissions
+* **CGROUP Namespace** – hides host cgroup hierarchy
+* **TIME Namespace** – provides independent clock offsets
+
+Containers typically use several of these together to create a fully isolated environment.
+
+
+# 2. Cgroups
+
+Isolation alone is not enough.
+
+Imagine a container with a memory leak consuming all system RAM. Without limits, it could crash the entire host.
+
+This is where **Control Groups (cgroups)** come in.
+
+Cgroups allow the Linux kernel to **limit and monitor resource usage** for groups of processes.
+
+Docker places each container inside its own cgroup.
+
+
+## Memory Limits
+
+Example:
+
+```bash
+docker run -m 512m nginx
+```
+
+This tells the kernel:
+
+> The container cannot use more than **512MB of RAM**.
+
+If it exceeds this limit, the kernel kills only that container, not the entire system.
+
+
+## CPU Limits
+
+Docker can also control CPU usage.
+
+Example:
+
+```bash
+docker run --cpus=1 nginx
+```
+
+Even if the host machine has 16 cores, the container only receives the equivalent of **one CPU core worth of processing time**.
+
+
+## Disk I/O Limits
+
+Cgroups can limit disk throughput as well.
+
+This prevents one container from becoming a **noisy neighbor** that monopolizes disk access and slows everything else down.
+
+
+# 3. Union File Systems
+
+Docker images are not single filesystems.
+
+They are **layered filesystems**.
+
+If five containers run from the same image, Docker does **not duplicate the entire OS five times**.
+
+Instead, Docker uses a **Union File System**, usually **OverlayFS (overlay2)**.
+
+Think of it like stacked transparent layers.
+
+```
+Container View
+│
+├── Writable Layer (UpperDir)
+│
+├── Image Layer 3
+├── Image Layer 2
+├── Image Layer 1
+│
+└── Base OS Layer
+```
+
+Only the **top layer is writable**.
+
+All other layers are read-only and shared between containers.
+
+
+## Copy-on-Write
+
+If a container modifies a file from the base image:
+
+1. The kernel copies that file into the writable layer
+2. The modification happens there
+
+This is called **Copy-on-Write (CoW)**.
+
+It dramatically reduces disk usage and allows containers to start almost instantly.
+
+
+# How These Pieces Create a Container
+
+Let’s trace what happens when you run:
+
+```bash
+docker run nginx
+```
+
+## Step 1: Filesystem Setup (Union FS)
+
+Docker assembles the filesystem:
+
+```
+Lower Layers  → nginx image + OS libraries
+Upper Layer   → writable container layer
+Merged View   → filesystem the container sees
+```
+
+To the process, it looks like a complete Linux system.
+
+
+## Step 2: Isolation (Namespaces)
+
+Docker starts a new process using the `clone()` system call with namespace flags like:
+
+```
+CLONE_NEWPID
+CLONE_NEWNET
+CLONE_NEWNS
+CLONE_NEWUTS
+```
+
+The process now:
+
+* thinks it is **PID 1**
+* has its **own network stack**
+* sees its **own filesystem**
+
+From its perspective, it is running on its own machine.
+
+
+## Step 3: Resource Limits (Cgroups)
+
+Docker registers the process inside a cgroup.
+
+The kernel now enforces limits such as:
+
+```
+Memory limit: 512MB
+CPU limit: 1 core
+```
+
+Even if the application misbehaves, it cannot consume more resources than allowed.
+
+
+## Step 4: The Application Starts
+
+Finally, Docker launches the container's entrypoint:
+
+```
+/usr/sbin/nginx
+```
+
+The nginx process begins running.
+
+To the process it appears as though it is the main process of a small Linux system.
+
+In reality it is just **one isolated process running on the host kernel**.
+
+
+# So in Conclusion
+
+A container is not a machine.
+
+It is simply:
+
+```
+A process
++ isolation (Namespaces)
++ resource limits (Cgroups)
++ a layered filesystem (Union FS)
+```
+
+Docker doesn’t invent new virtualization technology.
+
+It simply orchestrates existing Linux kernel primitives to make application environments **portable, isolated, and lightweight**.
+
+Once you understand that, containers stop looking like magic and start looking like **clever operating system design**.
+

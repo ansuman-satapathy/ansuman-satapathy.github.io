@@ -32,10 +32,15 @@ body.dark :not(pre)>code,
 }
 
 /* Base Theme Overrides (Dark Always) */
-html, body {
+html {
+  background-color: #1e1f29 !important;
+  width: 100%;
+}
+
+body {
   background-color: #1e1f29 !important;
   color: #f8f8f2 !important;
-  overflow-x: hidden; /* Keep this to prevent overall scroll */
+  overflow-x: hidden; /* Move overflow to body to restore sticky header */
   width: 100%;
   position: relative;
 }
@@ -909,11 +914,20 @@ html, body {
   .menu-trigger {
     margin-left: 0 !important;
     padding: 8px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
   }
 
   .menu-trigger svg {
     width: 28px !important;
     height: 28px !important;
+  }
+
+  .theme-toggle {
+    display: none !important; /* Hide theme toggle on mobile to prevent overlap */
   }
 }
 

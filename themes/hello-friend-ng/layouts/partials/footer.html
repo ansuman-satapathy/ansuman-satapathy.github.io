@@ -1,0 +1,111 @@
+<footer class="footer">
+    {{if or (.Site.Params.footer.trademark) (.Site.Params.footer.author) (.Site.Params.footer.copyright) (.Site.Params.footer.rss) (.Site.Params.footer.topText) }}
+    <div class="footer__inner">
+        <div class="footer__content">
+            {{ if .Site.Params.footer.trademark }}<span>&copy; {{ .Site.Params.footer.trademark }}</span>{{ end }}
+            {{ if .Site.Params.footer.author }}<span><a href="{{ .Site.BaseURL }}">{{ .Site.Params.Author.name }}</a></span>{{ end }}
+            {{ if .Site.Params.footer.copyright }}<span>{{ .Site.Copyright| safeHTML }}</span>{{ end }}
+            {{ if .Site.Params.footer.rss }}<span><a href="{{ "posts/index.xml" | absLangURL }}" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>{{ end }}
+            {{ range .Site.Params.footer.topText }}<span>{{ . | safeHTML}}</span>{{ end }}
+        </div>
+    </div>
+    {{ end }}
+    {{with .Site.Params.footer.bottomText}}
+    <div class="footer__inner">
+        <div class="footer__content">
+            {{ range . }}<span>{{ . | safeHTML}}</span>{{ end }}
+        </div>
+    </div>
+    {{ end }}
+</footer>
+
+<!-- Search Modal -->
+<div id="search-modal" class="search-modal">
+    <div class="search-modal-content">
+        <div class="search-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="search-input" placeholder="Search posts... (Esc to close)" autocomplete="off">
+        </div>
+        <div id="search-results" class="search-results"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<script>
+    let fuse;
+    const searchModal = document.getElementById('search-modal');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    const searchTrigger = document.getElementById('search-trigger');
+    const searchTriggerMobile = document.getElementById('search-trigger-mobile');
+
+    async function initSearch() {
+        if (fuse) return;
+        const response = await fetch('/index.json');
+        const data = await response.json();
+        fuse = new Fuse(data, {
+            keys: ['title', 'content', 'tags'],
+            threshold: 0.3,
+            ignoreLocation: true
+        });
+    }
+
+    function toggleSearch() {
+        const isVisible = searchModal.classList.contains('active');
+        if (isVisible) {
+            searchModal.classList.remove('active');
+            document.body.style.overflow = '';
+        } else {
+            searchModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => searchInput.focus(), 100);
+            initSearch();
+        }
+    }
+
+    searchTrigger?.addEventListener('click', toggleSearch);
+    searchTriggerMobile?.addEventListener('click', toggleSearch);
+
+    window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            toggleSearch();
+        }
+        if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+            toggleSearch();
+        }
+    });
+
+    searchModal.addEventListener('click', (e) => {
+        if (e.target === searchModal) toggleSearch();
+    });
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        if (!query) {
+            searchResults.innerHTML = '';
+            return;
+        }
+        const results = fuse.search(query).slice(0, 8);
+        searchResults.innerHTML = results.map(({ item }) => `
+            <a href="${item.permalink}" class="search-result-item">
+                <div class="result-title">${item.title}</div>
+                <div class="result-section">${item.section}</div>
+            </a>
+        `).join('');
+    });
+</script>
+
+{{ if .IsPage }}
+<script>
+    window.onscroll = function() {
+        const progressBar = document.getElementById("reading-progress");
+        if (progressBar) {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+        }
+    };
+</script>
+{{ end }}

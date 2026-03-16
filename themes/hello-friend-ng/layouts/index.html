@@ -1,0 +1,42 @@
+{{ define "body" }}
+    <body class="{{ if .Site.Params.backgroundImage }} background-image" style="background-image: url('{{ .Site.Params.backgroundImage }}');" {{ else }}"{{ end }}>
+{{ end }}
+
+{{ define "main" }}
+    <div class="content-center">
+        <main>
+            <div>
+                {{ if .Site.Params.Portrait.Path }}
+                <img src="{{ .Site.Params.Portrait.Path }}" class="circle" alt="{{ .Site.Params.Portrait.Alt }}" style="max-width:{{ .Site.Params.Portrait.MaxWidth }}" />
+                {{ end }}
+
+                <h1 id="landing-name">{{ .Site.Title }}</h1>
+
+                {{ partial "subtitle.html" . }}
+
+                {{- with .Site.Params.social }}
+                    <div class="social-icons">
+                        {{ partial "social-icons.html" . }}
+                    </div>
+                {{- end }}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const name = document.getElementById('landing-name');
+        if (name) {
+            name.addEventListener('mousemove', (e) => {
+                const rect = name.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                name.style.setProperty('--mouse-x', `${x}%`);
+                name.style.setProperty('--mouse-y', `${y}%`);
+            });
+            name.addEventListener('mouseleave', () => {
+                name.style.removeProperty('--mouse-x');
+                name.style.removeProperty('--mouse-y');
+            });
+        }
+    </script>
+{{ end }}

@@ -13,7 +13,7 @@
                 
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-                    <div class="card-desc">{{ .Description | default .Summary }}</div>
+                    <div class="card-desc">{{ .Description | default (.Plain | truncate 180) }}</div>
                     
                     <div class="card-tags">
                         {{ with .Params.tags }}

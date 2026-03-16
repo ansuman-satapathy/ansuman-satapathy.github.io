@@ -1017,6 +1017,19 @@ body {
   margin-bottom: 0.2rem;
 }
 
+.result-titl.card-desc {
+  color: #999;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 4.8em; /* 3 lines * 1.6 line-height */
+}
+
 .result-section {
   color: #777;
   font-size: 0.75rem;

@@ -4,7 +4,7 @@ date: 2026-01-25T20:30:00+05:30
 draft: false
 toc: false
 categories: ["DevOps", "IaC"]
-tags: ["terraform", "sre", "iac", "best practices"]
+tags: ["terraform", "sre", "iac"]
 ---
 
 Writing Terraform is easy. Managing Terraform at scale without destroying your company’s infrastructure is hard.

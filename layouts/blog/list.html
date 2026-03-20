@@ -18,7 +18,7 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-                            <div class="card-desc">{{ .Description | default (.Plain | truncate 180) }}</div>
+                            <div class="card-desc">{{ .Description | default (.Plain | htmlUnescape | truncate 180) }}</div>
                             
                             {{ with .Params.tags }}
                             <div class="card-tags">
@@ -28,10 +28,12 @@
                             </div>
                             {{ end }}
     
-                            <a href="{{ .Permalink }}" class="card-link">
-                                Read Article 
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            </a>
+                            <div class="card-footer">
+                                <a href="{{ .Permalink }}" class="card-link" aria-label="Read more about {{ .Title }}">
+                                    Read Article 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 {{ end }}

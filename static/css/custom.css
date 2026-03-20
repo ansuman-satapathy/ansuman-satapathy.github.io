@@ -110,6 +110,17 @@ body {
 }
 
 @media (max-width: 684px) {
+  .header__inner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .header__right {
+    display: flex !important;
+    align-items: center !important;
+  }
+
   .menu {
     background: rgba(22, 23, 31, 1) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -148,7 +159,21 @@ body {
   }
 }
 
+.table-container {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+/* Global Code Block Override for Mobile */
+pre {
+  max-width: 100vw;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
 @media (max-width: 684px) {
+
   .content-center h1 {
     font-size: 1.8rem !important;
   }
@@ -264,6 +289,8 @@ body {
   gap: 0.5rem;
   margin-top: 0.8rem; /* Gap from title */
   margin-bottom: 1rem; /* Space before links */
+  position: relative;
+  z-index: 2; /* Needs to rest above the full-card clickable area */
 }
 
 .card-tag {
@@ -271,7 +298,7 @@ body {
   color: #bd93f9;
   font-family: monospace;
   background: rgba(189, 147, 249, 0.1);
-  padding: 1px 5px;
+  padding: 0.25rem 0.6rem; /* Enhanced mobile touch target baseline */
   border-radius: 4px;
 }
 
@@ -336,6 +363,14 @@ body {
   transition: color 0.2s ease;
 }
 
+/* Pseudo-element to make entire card clickable */
+.card-title a::before {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 1;
+}
+
 .card-title a:hover {
   color: #bd93f9 !important;
 }
@@ -362,6 +397,8 @@ body {
   align-items: center;
   gap: 0.4rem;
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 2; /* Needs to rest above the full-card clickable area */
 }
 
 .card-link:hover {
@@ -380,6 +417,7 @@ body {
 .posts > .post-title,
 .posts > h1 {
   max-width: 1000px;
+  margin-top: 3rem !important;
   margin-left: auto !important;
   margin-right: auto !important;
   text-align: left;
@@ -424,6 +462,12 @@ body {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   color: #f8f8f2 !important;
+}
+
+@media (max-width: 684px) {
+  .button a {
+    padding: 0.8rem 2rem !important; /* Larger hit area */
+  }
 }
 
 @media (max-width: 850px) {
@@ -912,18 +956,23 @@ body {
   }
 
   .menu-trigger {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     margin-left: 0 !important;
-    padding: 8px !important;
+    padding: 0 !important; /* Zero padding to avoid offset */
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    outline: none !important;
-    -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+    height: 100% !important;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .menu-trigger svg {
     width: 28px !important;
     height: 28px !important;
+    margin: 0 !important; /* Remove any stray margin */
+    display: block !important;
   }
 
   .theme-toggle {
@@ -1017,17 +1066,24 @@ body {
   margin-bottom: 0.2rem;
 }
 
-.result-titl.card-desc {
+.card-desc {
   color: #999;
   line-height: 1.6;
   font-size: 0.95rem;
   margin-bottom: 1.5rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   min-height: 4.8em; /* 3 lines * 1.6 line-height */
+}
+
+@media (max-width: 684px) {
+  .card-desc {
+    display: none !important;
+  }
 }
 
 .result-section {
@@ -1043,3 +1099,65 @@ body {
     margin-right: 0.5rem;
   }
 }
+
+/* --- Code Block Copy Button Styling --- */
+div.code-toolbar > .toolbar {
+  opacity: 0 !important; /* Hide by default */
+  transition: opacity 0.3s ease !important;
+  top: 0.5rem !important;
+  right: 0.75rem !important;
+  display: flex !important;
+  gap: 0.5rem !important;
+}
+
+div.code-toolbar:hover > .toolbar {
+  opacity: 1 !important;
+}
+
+.copy-to-clipboard-btn,
+div.code-toolbar > .toolbar .toolbar-item span {
+  background: rgba(43, 44, 46, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #aaa !important;
+  border-radius: 6px !important;
+  padding: 0.3rem 0.7rem !important; /* Unified padding */
+  font-size: 0.75rem !important; /* Unified size */
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+  outline: none !important;
+  cursor: pointer !important;
+}
+
+div.code-toolbar > .toolbar .toolbar-item span {
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+
+.copy-to-clipboard-btn:hover {
+  background: rgba(189, 147, 249, 0.2) !important;
+  border-color: rgba(189, 147, 249, 0.5) !important;
+  color: #bd93f9 !important;
+}
+
+.copy-to-clipboard-btn.copied {
+  background: rgba(80, 250, 123, 0.2) !important;
+  border-color: rgba(80, 250, 123, 0.5) !important;
+  color: #50fa7b !important;
+}
+
+@media (max-width: 684px) {
+  div.code-toolbar > .toolbar {
+    opacity: 1 !important; /* Always show on mobile */
+    top: 0.3rem !important;
+    right: 0.4rem !important;
+  }
+  
+  .copy-to-clipboard-btn,
+  div.code-toolbar > .toolbar .toolbar-item span {
+    padding: 0.4rem 0.8rem !important; /* Slightly larger for touch */
+  }
+}
+

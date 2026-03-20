@@ -19,6 +19,15 @@ menuTrigger &&
     () => menu && menu.classList.toggle("hidden")
   );
 
+// Close menu when tapping outside
+document.addEventListener("click", (e) => {
+  if (menu && !menu.classList.contains("hidden") && 
+      menuTrigger && !menuTrigger.contains(e.target) && 
+      !menu.contains(e.target)) {
+    menu.classList.add("hidden");
+  }
+});
+
 window.addEventListener("resize", isMobileMenu);
 
 const language = document.getElementsByTagName('html')[0].lang;

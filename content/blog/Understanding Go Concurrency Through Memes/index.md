@@ -5,7 +5,6 @@ draft: false
 toc: false
 categories: [Programming]
 tags: [golang, concurrency, go-routines]
-series: [Programming]
 ---
 
 If you listen to Senior Engineers talk about Concurrency, you’d think it’s the plot of a spy thriller.

@@ -5,12 +5,9 @@
 
         <div class="project-list">
             {{ range .Pages.ByDate.Reverse }}
-            <div class="interactive-card">
-                <div class="card-meta">
-                    <span class="card-date">{{ .Date.Format "Jan 02, 2006" }}</span>
-                    <span class="card-read-time">{{ .ReadingTime }} min read</span>
-                </div>
-                
+            <div class="interactive-card project-card">
+                {{ $primaryTag := "" }}{{ if .Params.tags }}{{ $primaryTag = index .Params.tags 0 }}{{ end }}
+                <div class="card-hero {{ $primaryTag | urlize }}"></div>
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
                     <div class="card-desc">{{ .Description | default (.Plain | htmlUnescape | truncate 180) }}</div>

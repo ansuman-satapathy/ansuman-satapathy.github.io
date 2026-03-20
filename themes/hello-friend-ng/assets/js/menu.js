@@ -19,9 +19,9 @@ menuTrigger &&
     () => menu && menu.classList.toggle("hidden")
   );
 
-// Close menu when tapping outside
+// Close menu when tapping outside (Mobile only)
 document.addEventListener("click", (e) => {
-  if (menu && !menu.classList.contains("hidden") && 
+  if (isMobile() && menu && !menu.classList.contains("hidden") && 
       menuTrigger && !menuTrigger.contains(e.target) && 
       !menu.contains(e.target)) {
     menu.classList.add("hidden");

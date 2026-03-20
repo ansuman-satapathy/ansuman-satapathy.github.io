@@ -1077,7 +1077,6 @@ pre {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-height: 4.8em; /* 3 lines * 1.6 line-height */
 }
 
 @media (max-width: 684px) {
@@ -1148,16 +1147,102 @@ div.code-toolbar > .toolbar .toolbar-item span {
   color: #50fa7b !important;
 }
 
-@media (max-width: 684px) {
-  div.code-toolbar > .toolbar {
-    opacity: 1 !important; /* Always show on mobile */
-    top: 0.3rem !important;
-    right: 0.4rem !important;
-  }
-  
-  .copy-to-clipboard-btn,
-  div.code-toolbar > .toolbar .toolbar-item span {
-    padding: 0.4rem 0.8rem !important; /* Slightly larger for touch */
+/* --- Project Page UI/UX Enhancements --- */
+.card-hero {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(90deg, #bd93f9, #ff79c6);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-bottom: 0 !important;
+  background: rgba(43, 44, 46, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(8px);
+  border-radius: 12px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  background: rgba(40, 42, 54, 0.6) !important;
+  border-color: rgba(147, 46, 201, 0.3) !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+
+/* --- Project Grid Layout --- */
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem !important;
+  margin-top: 1.5rem;
+}
+
+.project-card .card-body {
+  padding: 1rem !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card .card-title {
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 0.4rem !important;
+  color: #f8f8f2 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  min-height: 2.6em !important;
+}
+
+
+.project-card .card-desc {
+  font-size: 0.82rem !important;
+  line-height: 1.4 !important;
+  color: #aaa !important;
+  margin-bottom: 0.8rem !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  min-height: 3.8em !important;
+}
+
+
+
+.project-card .card-links {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .project-list {
+    grid-template-columns: 1fr;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
+
+@media (max-width: 684px) {
+  .project-list {
+    gap: 1rem;
+  }
+  
+  .project-card .card-body {
+    padding: 1.2rem !important;
+  }
+}
+
 

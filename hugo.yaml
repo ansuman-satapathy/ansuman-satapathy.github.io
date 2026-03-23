@@ -28,7 +28,7 @@ params:
     logoText: "ansuman"
     logoHomeLink: "/"
     logoCursorDisabled: false
-    logoCursorColor: "#932ec9"
+    logoCursorColor: "#ff79c6"
     logoCursorAnimate: "2s"
   social:
     - name: "github"

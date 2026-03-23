@@ -12,6 +12,14 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                         {{ .ReadingTime }} min read
                     </span>
+                    {{ if .Params.series }}
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 12 12 17 22 12"></polyline><polyline points="2 17 12 22 22 17"></polyline></svg>
+                        {{ range first 1 .Params.series }}
+                        <a href="{{ "series/" | absURL }}{{ . | urlize }}">{{ . }}</a>
+                        {{ end }}
+                    </span>
+                    {{ end }}
                 </div>
             </header>
 
@@ -26,13 +34,30 @@
             </article>
 
             <footer class="post-footer">
-                {{ with .Params.tags }}
-                <div class="post-tags">
-                    {{ range . }}
-                    <a href="{{ "tags/" | absURL }}{{ . | urlize }}" class="post-tag">#{{ . }}</a>
+                <div class="post-taxonomies">
+                    {{ if .Params.categories }}
+                    <div class="post-taxonomy">
+                        <span class="taxonomy-key">Categories:</span>
+                        <div class="post-tags">
+                            {{ range .Params.categories }}
+                            <a href="{{ "categories/" | absURL }}{{ . | urlize }}" class="post-tag">{{ . }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
                     {{ end }}
+
+                    {{ if .Params.tags }}
+                    <div class="post-taxonomy">
+                        <span class="taxonomy-key">Tags:</span>
+                        <div class="post-tags">
+                            {{ range .Params.tags }}
+                            <a href="{{ "tags/" | absURL }}{{ . | urlize }}" class="post-tag">#{{ . }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
+                    {{ end }}
+
                 </div>
-                {{ end }}
             </footer>
         </main>
     </div>

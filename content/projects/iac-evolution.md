@@ -8,7 +8,6 @@ draft: false
 ---
 
 [![View on GitHub](https://img.shields.io/badge/GitHub-View_on_GitHub-181717?style=for-the-badge&logo=github)](https://github.com/ansuman-satapathy/IaC-Evolution)
-# IaC Evolution: From Bash to Terraform
 
 This repository demonstrates the evolution of Infrastructure as Code (IaC) and Configuration Management. It is structured as a 3-part journey, taking a raw Linux environment and progressively upgrading the deployment methodology to solve the limitations of the previous stage.
 

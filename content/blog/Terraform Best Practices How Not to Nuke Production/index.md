@@ -16,6 +16,9 @@ If your idea of "state management" is a file on your laptop named `terraform.tfs
 If you work on a team (or ever plan to), your state file cannot live on your local machine.
 
 * **The Problem:** If two people run `terraform apply` at the same time with different local states, you get a race condition that corrupts everything.
+
+> **Update: S3 now supports native state locking. No more dynamodb shenanigans.**
+
 * **The Fix:** Use a **Remote Backend** (like AWS S3).
 * **The Lock:** Use **DynamoDB** for state locking. This prevents "Person B" from writing to the state while "Person A" is still deploying.
 

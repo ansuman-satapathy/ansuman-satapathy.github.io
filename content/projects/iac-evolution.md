@@ -1,5 +1,5 @@
 ---
-title: "IaC Evolution: Deploying the Same App Three Ways to Understand Why Modern Infrastructure Exists"
+title: "Deploying the Same App Three Ways to Understand Why Modern Infrastructure Exists"
 date: 2026-03-15
 description: "This project shows the journey from Bash to Terraform, demonstrating the evolution of Infrastructure as Code (IaC)."
 tags: ["devops", "iac"]

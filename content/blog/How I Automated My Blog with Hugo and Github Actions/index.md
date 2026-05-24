@@ -1,10 +1,10 @@
 ---
-title: "How I Automated My Blog with Hugo and GitOps"
+title: "How I Automated My Blog with Hugo and Github Actions"
 date: 2026-01-01T15:42:59+05:30
 draft: false
 toc: false
 categories: ["DevOps"]
-tags: ["automation", "hugo", "yaml", "gitops"]
+tags: ["automation", "hugo", "yaml", "github-actions"]
 ---
 
 This is the first blog of the site. So, I thought why not write about how I automated the infrastructure behind it so that I can put my focus on writing and also other important things in life like... _(starts overthinking)_
@@ -202,4 +202,4 @@ hugo new blog/my-first-blog/index.md
 
 I don't know about you, but I find this really cool. And now with AI, you can do stuff like this really fast if you wanted to. Even if you don't write anything, it is just really cool to have something like this. From code to production through a pipeline. Always magical when you see it happen.
 
-Now that you know how CI/CD works, time to go and deploy a multi-cluster microservice with Kubernetes on AWS. (I'm joking... mostly).
+Now that you know how CI/CD works, time to go and deploy microservices with Kubernetes on AWS. (I'm joking... mostly).
